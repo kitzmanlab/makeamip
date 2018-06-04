@@ -1,5 +1,20 @@
 ### Setup python environment
 
+Install conda
+```
+wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+sh Miniconda3-latest-Linux-x86_64.sh
+# answer questions 
+```
+
+Set channel preference
+```
+conda config --add channels defaults
+conda config --add channels conda-forge
+conda config --add channels bioconda
+```
+
+Set up python environment
 ```
 conda create --name makeamip python=2 future pysam pybedtools cython biopython openpyxl scipy scikit-learn pytables primer3-py bzip2=1.0.6=1 matplotlib
 

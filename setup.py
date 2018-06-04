@@ -32,7 +32,6 @@ setup(
         "makeamip/generate_arm_pairs.py",
         "makeamip/generate_candidates.py",
         "makeamip/gene_list_to_bed_hg19.py",
-        "makeamip/greedy_pick_mip_set.py",
         "makeamip/greedy_pick_mip_set_v2.py",
         "makeamip/join_chunked_arm_and_pair_tbls.py",
         "makeamip/make_ado_insilico_ref.py",
