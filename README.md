@@ -27,7 +27,7 @@ export REFS=/nfs/kitzman2/jacob/proj/mip_design_pipe/annots_and_files/
 
 - *${REFS}/refs/* - reference genome sequences
 
-- *%{REFS}/parameters/* - parameters for MIP probe scoring model
+- *${REFS}/parameters/* - parameters for MIP probe scoring model
 
 ### Prereq software
 
@@ -39,4 +39,5 @@ Should be in $PATH:
 
 Also, picard should be installed, with an environmental variable PICARD_DIR pointing to the path where the picard.jar file lives.
 
-### Usage - see pipeline_script/example_usage.sh
+### Usage 
+See pipeline_script/example_usage.sh
