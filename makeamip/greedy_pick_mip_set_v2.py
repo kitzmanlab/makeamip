@@ -476,25 +476,25 @@ if __name__ == '__main__':
 
     opts.add_argument('--scorePenaltyForOverlapExisting', 
                       type=float, 
-                      default=0.1,
+                      default=0.25,
                       dest='scorePenaltyForOverlapExisting',
                       help='x*(max frac overlapping existing single MIP)')
 
     opts.add_argument('--scorePenaltyForOverlapExistingPass2', 
                       type=float, 
-                      default=0.1,
+                      default=0.70,
                       dest='scorePenaltyForOverlapExistingPass2',
                       help='x*(max frac overlapping existing single MIP)')
 
     opts.add_argument('--scorePenaltyForNonOverlapTarget',
                       type=float,
-                      default=0.0,
+                      default=0.65,
                       dest='scorePenaltyForNonOverlapTarget',
                       help='x*(fraction of gap fill NOT overlapping target)')
 
     opts.add_argument('--maxBpDaisychain',
                       type=int,
-                      default=14,
+                      default=7,
                       dest='maxBpDaisychain',
                       help='maximum #bp overlap between ext arm of a given probe and minus ext arm of another, to prevent daisychainning')
 

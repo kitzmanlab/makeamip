@@ -1,8 +1,13 @@
-setup environment:
+### Setup python environment
 
-conda create --name makeamip python=2 future pysam pybedtools cython biopython openpyxl scipy scikit-learn pytables primer3-py bzip2=1.0.6=1 
+```
+conda create --name makeamip python=2 future pysam pybedtools cython biopython openpyxl scipy scikit-learn pytables primer3-py bzip2=1.0.6=1 matplotlib
+
+pip install pyvcf
+
+# now, activate this environment
 source actviate makeamip
-
+```
 
 ### Setup: references
 
@@ -33,3 +38,5 @@ Should be in $PATH:
 - samtools
 
 Also, picard should be installed, with an environmental variable PICARD_DIR pointing to the path where the picard.jar file lives.
+
+### Usage - see pipeline_script/example_usage.sh

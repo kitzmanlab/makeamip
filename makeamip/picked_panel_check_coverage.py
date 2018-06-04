@@ -55,17 +55,18 @@ if __name__ == '__main__':
     tblByTarg['num_probes']=0.
     tblByTarg = tblByTarg.set_index( ['chrom','start','end'] )
     
-    btCvgByTarget = btMipsGapfill.coverage( btTargets, hist=True, all=False ).remove_invalid()
+    # btCvgByTarget = btMipsGapfill.coverage( btTargets, hist=True, all=False ).remove_invalid()
+    btCvgByTarget = btTargets.coverage( btMipsGapfill, hist=True, all=False ).remove_invalid()
 
     for r in btCvgByTarget:
         if r.chrom == 'all' : continue
-        tblByTarg.ix[ (r.chrom,int(r.start),int(r.end) ), 'mean_perbp_coverage_by_probes' ] += float(r.fields[3]) * float(r.fields[4]) / float(r.fields[5])
+        tblByTarg.loc[ (r.chrom,int(r.start),int(r.end) ), 'mean_perbp_coverage_by_probes' ] += float(r.fields[3]) * float(r.fields[4]) / float(r.fields[5])
 
     btCvgByTargetDistinct = btMipsGapfillUnique.coverage( btTargets, hist=True, all=False ).remove_invalid()
 
     for r in btCvgByTargetDistinct:
         if r.chrom == 'all' : continue
-        tblByTarg.ix[ (r.chrom,int(r.start),int(r.end) ), 'mean_perbp_coverage_by_distinct_probes' ] += float(r.fields[3]) * float(r.fields[4]) / float(r.fields[5])
+        tblByTarg.loc[ (r.chrom,int(r.start),int(r.end) ), 'mean_perbp_coverage_by_distinct_probes' ] += float(r.fields[3]) * float(r.fields[4]) / float(r.fields[5])
 
     tblByProbe = pd.DataFrame( {'chrom':[i.chrom for i in btMipsGapfill],
                                'start':[i.start for i in btMipsGapfill],
@@ -78,7 +79,7 @@ if __name__ == '__main__':
     for r in btOnTargByProbe:
         if r.chrom == 'all': continue
         if int(r.fields[-4])==0:
-            tblByProbe.ix[ (r.chrom,int(r.start),int(r.end)), 'frac_off_target' ] += float( r.fields[-1] )
+            tblByProbe.loc[ (r.chrom,int(r.start),int(r.end)), 'frac_off_target' ] += float( r.fields[-1] )
 
 
     for targ,ltxp in groupby( btTargets.intersect(btMipsGapfill,wb=True), lambda txp:txp.fields[:3] ):
@@ -86,7 +87,7 @@ if __name__ == '__main__':
         for txp in ltxp:
             lscores.append( float(txp.fields[7]) ) 
 
-        tblByTarg.ix[ (targ[0],int(targ[1]),int(targ[2])), 'mean_probe_score'] = np.mean(lscores)
+        tblByTarg.loc[ (targ[0],int(targ[1]),int(targ[2])), 'mean_probe_score'] = np.mean(lscores)
 
     tblByTarg.to_csv(o.outByTarg,sep='\t',index=True)
 
