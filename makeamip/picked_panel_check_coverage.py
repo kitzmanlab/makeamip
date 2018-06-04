@@ -62,7 +62,7 @@ if __name__ == '__main__':
         if r.chrom == 'all' : continue
         tblByTarg.loc[ (r.chrom,int(r.start),int(r.end) ), 'mean_perbp_coverage_by_probes' ] += float(r.fields[3]) * float(r.fields[4]) / float(r.fields[5])
 
-    btCvgByTargetDistinct = btMipsGapfillUnique.coverage( btTargets, hist=True, all=False ).remove_invalid()
+    btCvgByTargetDistinct = btTargets.coverage( btMipsGapfillUnique, hist=True, all=False ).remove_invalid()
 
     for r in btCvgByTargetDistinct:
         if r.chrom == 'all' : continue

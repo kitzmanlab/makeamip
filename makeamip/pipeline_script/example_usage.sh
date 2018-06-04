@@ -107,24 +107,12 @@ pairtbl_to_bed.py  \
     --inStore design/pairs_picked_10kprobes_cov1.h5 \
     --bedOut design/pairs_picked_10kprobes_cov1.bed &
 
-
-# bug in this one.
 picked_panel_check_coverage.py\
     --inTargetBed coding_exons_plus_popsnps.pad5bp.bed \
     --inMipBed design/pairs_picked_10kprobes_cov1.bed \
     --out design/pairs_picked_10kprobes_cov1.stats.txt \
     --outByTarg design/pairs_picked_10kprobes_cov1.stats_by_targ.txt \
     --libname 10kprobes_cov1
-
-python -m pdb /nfs/kitzman1/jacob/dev/makeamip/makeamip/picked_panel_check_coverage.py\
-    --inTargetBed coding_exons_plus_popsnps.pad5bp.bed \
-    --inMipBed design/pairs_picked_10kprobes_cov1.bed \
-    --out design/pairs_picked_10kprobes_cov1.stats.txt \
-    --outByTarg design/pairs_picked_10kprobes_cov1.stats_by_targ.txt \
-    --libname 10kprobes_cov1
-
-
-
 
 evalulate_design.py \
     --inStorePairs design/pairs_all_joined.h5 \
