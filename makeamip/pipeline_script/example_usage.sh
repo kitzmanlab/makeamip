@@ -46,9 +46,16 @@ cat coding_exons_plus_popsnps.pad5bp.bed | span
 # split target regions into ~5kbp chunks to parallelize
 mkdir target_split
 
-python $JP/proj/capdesign/split_target_bed.py \
+split_target_bed.py \
     --inBed coding_exons_plus_popsnps.pad5bp.bed     --fxnChunkbedNumToFn "lambda i:'target_split/design_merge.%03d.bed'%i" \
     --outKey design_chunks.k --targetBpPerChunk 5000 --maxbpSingleInterval 2000
+
+
+# need to have xa2multi.pl in path -- on my system this is included with bwa
+export PATH=${PATH}:/usr/share/bwa/
+# add mrfast to path
+export PATH=${PATH}:/mnt/userdata/annots_and_files/software/mrfast-2.6.1.0/
+
 
 ##
 ################################################################
@@ -56,6 +63,9 @@ python $JP/proj/capdesign/split_target_bed.py \
 # longer arms - 23-29
 
 mkdir design
+
+export TMPDIR=`readlink -f ${BASE_DIR}/temp/`
+mkdir -p TMPDIR
 
 export CPUlo=24
 export CPU=32
