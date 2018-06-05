@@ -18,10 +18,12 @@ Set up python environment
 ```
 conda create --name makeamip python=2 future pysam pybedtools cython biopython openpyxl scipy scikit-learn pytables primer3-py bzip2=1.0.6=1 matplotlib
 
+source activate
+source actviate makeamip
+
 pip install pyvcf
 
 # now, activate this environment
-source actviate makeamip
 ```
 
 ### Setup: references
@@ -29,7 +31,6 @@ source actviate makeamip
 Set env variable to point to location where reference & annotations are staged
 ```
 export REFS=/nfs/kitzman2/jacob/proj/mip_design_pipe/annots_and_files/
-
 ```
  
 - *${REFS}/indices/* - alignment and jellyfish index files

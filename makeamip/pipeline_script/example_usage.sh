@@ -36,7 +36,7 @@ cat coding_exons_plus_popsnps.bed | bedtools merge | span
 # 155789
 
 # pad out target regions by +/- 5 bp (min); some will end up having more padding dependent upon probe placement. 
-cat coding_exons_plus_popsnps.bed | bedtools slop -b 5 -g /nfs/kitzman2/lab_common/refs/human/hs37d5/hs37d5.contigLengths.txt  | bedtools merge > coding_exons_plus_popsnps.pad5bp.bed
+cat coding_exons_plus_popsnps.bed | bedtools slop -b 5 -g ${REFS}/refs/hs37d5.contigLengths.txt  | bedtools merge > coding_exons_plus_popsnps.pad5bp.bed
 
 cat coding_exons_plus_popsnps.pad5bp.bed | span 
 # 161969
