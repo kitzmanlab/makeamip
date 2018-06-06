@@ -14,11 +14,8 @@ import re
 import pandas as pd
 
 import pybedtools as pbt
-from common.utils.pbtutils import *
 
 import Bio.SeqIO
-
-from makeamip.capcommon import *
 
 from makeamip.capcommon import *
 

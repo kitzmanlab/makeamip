@@ -41,7 +41,7 @@ if __name__=='__main__':
     # build header with new lengths, in same order as provided within genome dictionary
     hdrNewSq = [ {'LN': mChromLenNew[chrom] , 'SN': chrom}  for chrom in mChromLenNew ]
 
-    hdrOut = hdrIn.todict()
+    hdrOut = hdrIn.to_dict()
     hdrOut['SQ']=hdrNewSq
 
     if o.outSam=='/dev/stdout':

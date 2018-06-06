@@ -18,11 +18,7 @@ import primer3.bindings as p3b
 
 import pysam
 import pybedtools as pbt
-
-from common.utils.pbtutils import *
-
-from makeamip.capcommon import *
-#     
+     
 
 from makeamip.capcommon import *
 

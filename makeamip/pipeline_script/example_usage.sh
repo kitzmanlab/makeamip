@@ -55,6 +55,8 @@ split_target_bed.py \
 export PATH=${PATH}:/usr/share/bwa/
 # add mrfast to path
 export PATH=${PATH}:/mnt/userdata/annots_and_files/software/mrfast-2.6.1.0/
+# point env var to picard
+export PICARD_DIR=/mnt/userdata/tools
 
 
 ##

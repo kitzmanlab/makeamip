@@ -1423,3 +1423,59 @@ class ScoringModelLearned( ScoringModelV1 ):
             pen[1] += 1
 
         return pen
+
+
+
+###
+# from common.utils.pbtutils
+
+def data_frame_to_pbt_nameidx( df, 
+                               col_chrom='chrom', 
+                               col_start='start', 
+                               col_end='end',
+                               col_idx=None,
+                               use_index=True,
+                               coords='[00]' ):
+    if col_idx is None and use_index:
+        df_tobt = df[ [ col_chrom, col_start, col_end ] ].copy()
+        df_tobt['name'] = df.index
+    elif col_idx is None and not use_index:
+        df_tobt = df[ [ col_chrom, col_start, col_end ] ].copy()
+        df_tobt['name'] = np.arange( df.shape[0] )
+    else:
+        df_tobt = df[ [ col_chrom, col_start, col_end, col_idx ] ].copy()
+
+    df_tobt.columns = ['chrom','start','end','name']
+        
+    coord_offset = coordConversion( coords, '[00)' )
+    if coord_offset!=(0,0):
+        df_tobt['start']+=coord_offset[0]
+        df_tobt['end']+=coord_offset[1]
+
+    outbt = pbt.BedTool.from_dataframe( df_tobt )
+
+    return outbt
+
+
+# TODO add optional param to this and data_frame_to_pbt_nameidx to keep strand info
+def bed_intersect_dataframe( bed,
+                             df_table, 
+                             col_chrom='chrom', 
+                             col_start='start', 
+                             col_end='end',
+                             col_idx=None,
+                             use_index=True,
+                             coords='[00]',
+                             *intersect_args ):
+  
+    bt_tbl = data_frame_to_pbt_nameidx( df_table, col_chrom, col_start, col_end, col_idx, use_index, coords )
+
+    bt_tbl_ovl = bt_tbl.intersect( bed, *intersect_args )
+
+    # get indices from bed intersect results
+    # cast back to proper type to index this table.
+    lidcs = np.unique( np.array( [ iv.fields[3] for iv in bt_tbl_ovl ] ).astype( df_table.index.dtype ) )
+
+    df_tbl_out = df_table.ix[ lidcs ]
+
+    return df_tbl_out

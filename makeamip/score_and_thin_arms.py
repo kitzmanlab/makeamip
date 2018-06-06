@@ -37,10 +37,10 @@ if __name__ == '__main__':
     
     opts = argparse.ArgumentParser()
 
-    opts.add_argument('--genome', dest='genome', default='/nfs/kitzman2/lab_common/refs/human/hs37d5/hs37d5.fa',
+    opts.add_argument('--genome', dest='genome',
                       help='path to indexed genome file')
     
-    opts.add_argument('--genomeDict', dest='genomeDict', default='/nfs/kitzman2/lab_common/refs/human/hs37d5/hs37d5.fa.dict', 
+    opts.add_argument('--genomeDict', dest='genomeDict',
                       help='path to genome contig file dictionary, eg from Picard CreateSequenceDictionary')
 
     opts.add_argument('--inArmStore', dest='inArmStore')
@@ -64,7 +64,7 @@ if __name__ == '__main__':
         help = 'name a classifier, GradientBoosting or AdaBoost, for machine learning algorithm')
     opts.add_argument('--trainingMode', default = 'preTrained', dest = 'mode', 
         help = 'choose to use a pre-trained model or train model on the fly using new raw data tablee')
-    opts.add_argument('--trainSetPath', default = '/nfs/kitzman2/diaorch/trainsets/', dest = 'train_path', 
+    opts.add_argument('--trainSetPath', dest = 'train_path', 
         help = 'set the path to the raw table and pklFiles folders')
     opts.add_argument('--setPrefix', default = 'trainset', dest = 'set_prefix', 
         help = 'file name prefix for raw table tsv files or pkl files')
