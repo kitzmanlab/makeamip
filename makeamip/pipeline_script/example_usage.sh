@@ -1,3 +1,5 @@
+source actviate makeamip
+
 # handy shortcut:
 alias span='python -c "import numpy as np; import sys; x=np.array([ int(l.split(\"\t\")[2])-int(l.split(\"\t\")[1]) for l in sys.stdin]) ; print(x.sum())"'
 
