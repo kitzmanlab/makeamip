@@ -104,7 +104,13 @@ export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20
 # this runs up until but not including picking.
 pipeline_template.sh > ${BASE_DIR}/out.log 2>${BASE_DIR}/out.err
 
-# more stringent with flakning 
+# now, given all probes in design database,
+# select 10000 probes (--targetNumProbes) to make up this panel.
+# 
+# require each target base be covered by minimum of 1 probe's
+# gap-fill (--coverage)
+#
+# 
 greedy_pick_mip_set_v2.py \
     --targetBed coding_exons_plus_popsnps.pad5bp.bed \
     --coverage 1 \
@@ -113,6 +119,7 @@ greedy_pick_mip_set_v2.py \
     --outPairStore design/pairs_picked_10kprobes_cov1.h5 \
     --targetNumProbes 10000 &
 
+# make a bed file of probes. 
 pairtbl_to_bed.py  \
     --table pairsPlus \
     --armStore design/arms_filtuniq.h5\
@@ -148,8 +155,7 @@ pair_table_out.py \
     --inStoreArms design/arms_filtuniq.h5\
     --mipTableOut design/FINAL_PROBE_TABLE_pairs_picked_10kprobes_cov1.txt &
 
-# output a final list of sequences to synthesize 
-
+# output final list of sequences to synthesize
 pairtbl_to_oligo_list.py \
     --inStore design/pairs_picked_10kprobes_cov1.h5 \
     --table pairsPlus \
