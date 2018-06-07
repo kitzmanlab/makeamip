@@ -75,12 +75,11 @@ if __name__ == '__main__':
     tblByProbe['frac_off_target']=0
     tblByProbe = tblByProbe.set_index( ['chrom','start','end'] )
 
-    btOnTargByProbe = btTargets.coverage( btMipsGapfill, hist=True ).remove_invalid()
-    for r in btOnTargByProbe:
-        if r.chrom == 'all': continue
-        if int(r.fields[-4])==0:
-            tblByProbe.loc[ (r.chrom,int(r.start),int(r.end)), 'frac_off_target' ] += float( r.fields[-1] )
-
+    # btOnTargByProbe = btMipsGapfill.coverage( btTargets, hist=True, all=False ).remove_invalid()
+    # for r in btOnTargByProbe:
+    #     if r.chrom == 'all': continue
+    #     if int(r.fields[-4])==0:
+    #         tblByProbe.loc[ (r.chrom,int(r.start),int(r.end)), 'frac_off_target' ] += float( r.fields[-1] )
 
     for targ,ltxp in groupby( btTargets.intersect(btMipsGapfill,wb=True), lambda txp:txp.fields[:3] ):
         lscores = []

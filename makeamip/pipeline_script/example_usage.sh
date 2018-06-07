@@ -119,12 +119,12 @@ pairtbl_to_bed.py  \
     --inStore design/pairs_picked_10kprobes_cov1.h5 \
     --bedOut design/pairs_picked_10kprobes_cov1.bed &
 
-picked_panel_check_coverage.py\
-    --inTargetBed coding_exons_plus_popsnps.pad5bp.bed \
-    --inMipBed design/pairs_picked_10kprobes_cov1.bed \
-    --out design/pairs_picked_10kprobes_cov1.stats.txt \
-    --outByTarg design/pairs_picked_10kprobes_cov1.stats_by_targ.txt \
-    --libname 10kprobes_cov1
+# picked_panel_check_coverage.py\
+#     --inTargetBed coding_exons_plus_popsnps.pad5bp.bed \
+#     --inMipBed design/pairs_picked_10kprobes_cov1.bed \
+#     --out design/pairs_picked_10kprobes_cov1.stats.txt \
+#     --outByTarg design/pairs_picked_10kprobes_cov1.stats_by_targ.txt \
+#     --libname 10kprobes_cov1
 
 evalulate_design.py \
     --inStorePairs design/pairs_all_joined.h5 \
@@ -147,3 +147,10 @@ pair_table_out.py \
     --gcFlankingBp 100 --gcFlankingBp 1000 --gcFlankingBp 2500 --gcFlankingBp 5000 --gcFlankingBp 10000 --gcFlankingBp 20000 --gcFlankingBp 100000 --gcFlankingBp 500000  \
     --inStoreArms design/arms_filtuniq.h5\
     --mipTableOut design/FINAL_PROBE_TABLE_pairs_picked_10kprobes_cov1.txt &
+
+# output a final list of sequences to synthesize 
+
+pairtbl_to_oligo_list.py \
+    --inStore design/pairs_picked_10kprobes_cov1.h5 \
+    --table pairsPlus \
+    > design/pairs_picked_10kprobes_cov1.oligos.txt
