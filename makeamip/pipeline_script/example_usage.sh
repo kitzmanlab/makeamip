@@ -1,4 +1,5 @@
-source actviate makeamip
+source $HOME/miniconda3/bin/activate makeamip
+
 
 # handy shortcut:
 alias span='python -c "import numpy as np; import sys; x=np.array([ int(l.split(\"\t\")[2])-int(l.split(\"\t\")[1]) for l in sys.stdin]) ; print(x.sum())"'
@@ -68,9 +69,6 @@ export PICARD_DIR=/mnt/userdata/tools
 
 mkdir design
 
-export TMPDIR=`readlink -f ${BASE_DIR}/temp/`
-mkdir -p TMPDIR
-
 export CPUlo=24
 export CPU=32
 
@@ -78,6 +76,10 @@ export RUN_KEY_IN=design_chunks.k
 export RUN_KEY_OUT=design_chunks.pass1.k
 
 export BASE_DIR=design
+
+export TMPDIR=`readlink -f ${BASE_DIR}/temp/`
+mkdir -p TMPDIR
+
 export GENOME_PATH=${REFS}/refs/hs37d5.fa
 export GENOME_DICT=${REFS}/refs/hs37d5.fa.dict
 
