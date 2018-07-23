@@ -307,6 +307,8 @@ gmake -f  ${BASE_DIR}/runscripts/${baseOfKeyOut}_filterUniq.mf -j ${CPU}
 # TODO export pickStep, pickNum?
 
 echo "score_and_thin_arms.py \
+    --genome ${GENOME_PATH} \
+    --genomeDict ${GENOME_DICT} \
     --inArmStore \${armcands_filtuniq} \
     --hitTblSufifx mrfAndBwa \
     --snpTblSuffix 1kg \
