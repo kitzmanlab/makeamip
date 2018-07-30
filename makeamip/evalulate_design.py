@@ -16,8 +16,6 @@ import pylab as plt
 
 import pandas as pd
 
-from common.utils import pbtutils
-
 from makeamip.capcommon import *
 
 if __name__ == '__main__':
@@ -99,8 +97,8 @@ if __name__ == '__main__':
 
     # intersect each pair w/ all other pairs
 
-    pbtPairsAll = pbtutils.data_frame_to_pbt_nameidx( tblPairsAll )
-    pbtPairsPicked = pbtutils.data_frame_to_pbt_nameidx( tblPairsPicked )
+    pbtPairsAll = data_frame_to_pbt_nameidx( tblPairsAll )
+    pbtPairsPicked = data_frame_to_pbt_nameidx( tblPairsPicked )
 
     mPbidxLotherScore=defaultdict(list)
 

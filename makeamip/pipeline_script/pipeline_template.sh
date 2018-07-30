@@ -358,7 +358,7 @@ fi  #if [[ "$ONLY_PICK" == "yes" ]] ; then
 #####################################################################
 # join generated pairs.
 
-python join_chunked_arm_and_pair_tbls.py \
+join_chunked_arm_and_pair_tbls.py \
     --key ${RUN_KEY_OUT} \
     --colnameArmTbl armcands_filtuniq \
     --colnamePairTbl paircands_stage1 \

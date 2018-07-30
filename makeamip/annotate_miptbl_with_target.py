@@ -15,8 +15,6 @@ import pybedtools as pbt
 
 import pandas as pd
 
-from common.utils import bxwrappers
-
 from makeamip.capcommon import *
 
 if __name__ == '__main__':
@@ -34,34 +32,6 @@ if __name__ == '__main__':
     opts.add_argument('--inBedTargets', dest='inBedTargets')
 
     o = opts.parse_args()
-
-    # tbl = pd.read_csv(o.inTbl,sep='\t')
-    # tbl[o.colOutTarget]=''
-
-    # bedTargets = pbt.BedTool(o.inBedTargets)
-
-    # mChromTargIvtree = bxwrappers.bedtoolToIvTrees(bedTargets)
-
-    # lTargsOut = []
-
-    # for ipb,rpb in tbl.iterrows():
-
-    #     print ipb
-
-    #     liTargs = mChromTargIvtree[ rpb[o.colChrom]  ].find( rpb[o.colStart], rpb[o.colEnd] )
-
-    #     if len(liTargs)>0:
-    #         lTargsOut.append(
-    #             ','.join( [ '%s:%d-%d'%(bedTargets[ targ[0] ].chrom, bedTargets[ targ[0] ].start, bedTargets[ targ[0] ].stop) 
-    #                         for targ in liTargs ] ))
-        
-    #         if len(liTargs)>1:
-    #             print 'warning, taking only first target when probe overlaps multiple'
-    #     else:
-    #         lTargsOut.append(None)
-
-    # tbl[o.colOutTarget] = lTargsOut
-    # tbl.to_csv( o.outTbl, sep='\t', index=False )
 
     tbl = pd.read_csv(o.inTbl,sep='\t')
     tbl[o.colOutTarget]=''
