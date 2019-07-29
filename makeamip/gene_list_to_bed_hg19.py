@@ -6,6 +6,9 @@ import pandas as pd
 import numpy as np
 
 import pybedtools as pbt
+from pybedtools.featurefuncs import extend_fields
+
+import itertools
 
 def rgOverlap_array_single(arbounds1, bounds2):
 
@@ -58,20 +61,20 @@ if __name__=='__main__':
     tblKnownGene = tblKnownGene.set_index( 'hg19.kgXref.geneSymbol' )
     tblGencode = tblGencode.set_index( 'hg19.wgEncodeGencodeAttrsV24lift37.geneName' )
 
-    tblExons = OrderedDict( [(k,[]) for k in ['chrom','start','end'] ])
-    tblNcExons = OrderedDict( [(k,[]) for k in  ['chrom','start','end'] ])    
-    tblCds = OrderedDict( [(k,[]) for k in  ['chrom','start','end'] ])
+    tblExons = OrderedDict( [(k,[]) for k in ['chrom','start','end','gene'] ])
+    tblNcExons = OrderedDict( [(k,[]) for k in  ['chrom','start','end','gene'] ])    
+    tblCds = OrderedDict( [(k,[]) for k in  ['chrom','start','end','gene'] ])
 
     for gn in tblGeneList[0]:
 
         ctrAddedCdsCurGene  =  0
 
         tblExonsCur = OrderedDict( [(k,[]) for k in 
-            ['chrom','start','end'] ])
+            ['chrom','start','end','gene'] ])
         tblNcExonsCur = OrderedDict( [(k,[]) for k in 
-            ['chrom','start','end'] ])
+            ['chrom','start','end','gene'] ])
         tblCdsCur = OrderedDict( [(k,[]) for k in 
-            ['chrom','start','end'] ])
+            ['chrom','start','end','gene'] ])
 
         # table, prefix
         for tblname,tbl,pfx in \
@@ -107,6 +110,7 @@ if __name__=='__main__':
                         tblCdsCur['chrom'].append( chrom )
                         tblCdsCur['start'].append( r['%scdsStart'%pfx] )
                         tblCdsCur['end'].append( r['%scdsEnd'%pfx] )
+                        tblCdsCur['gene'].append(gn)
 
                         isCds = True
 
@@ -128,12 +132,14 @@ if __name__=='__main__':
                                     tblExonsCur['chrom'].append( chrom )
                                     tblExonsCur['start'].append( lexStarts[iex] )
                                     tblExonsCur['end'].append( lexEnds[iex] )
+                                    tblExonsCur['gene'].append(gn)
                                     assert lexEnds[iex]>=lexStarts[iex]
                         else:
                             for iex in range(len(lexStarts)):
                                 tblNcExonsCur['chrom'].append( chrom )
                                 tblNcExonsCur['start'].append( lexStarts[iex] )
                                 tblNcExonsCur['end'].append( lexEnds[iex] )
+                                tblNcExonsCur['gene'].append(gn)
                                 assert lexEnds[iex]>=lexStarts[iex]
                             
 
@@ -165,9 +171,23 @@ if __name__=='__main__':
     tblNcExons['chrom'] = tblNcExons['chrom'].astype('str')
     tblNcExons = tblNcExons.sort_values( by= ['chrom','start'] ).reset_index(drop=True)
 
-    btCodingExons = pbt.BedTool.from_dataframe( tblExons ).merge().saveas()
-    # btCds = pbt.BedTool.from_dataframe( tblCds ).merge().saveas()
+    btCodingExons = pbt.BedTool.from_dataframe( tblExons )
+    btCodingExonsMrg = btCodingExons.merge().saveas()
 
+    mrgCexToGene = btCodingExonsMrg.intersect( b=btCodingExons, wo=True )
+    m_cexintv_lgene = dict([ (tuple(g), ','.join(list(set([i.fields[6] for i in li])))) for  g,li in  itertools.groupby( mrgCexToGene, lambda x:x.fields[:3] ) ])
+
+
+    def genenameadder(bt):
+        for iv in bt:
+            feat=extend_fields(iv,4)
+            if tuple(iv.fields[:3]) in m_cexintv_lgene:
+                feat.name=m_cexintv_lgene[tuple(iv.fields[:3])]
+            yield feat
+
+    btCodingExonsMrg_wgn = pbt.BedTool( genenameadder(btCodingExonsMrg) )
+
+    # btCds = pbt.BedTool.from_dataframe( tblCds ).merge().saveas()
     # btCodingExons = btExons.intersect( btCds )
 
     if o.inclExlcusivelyNoncoding and tblNcExons.shape[0]>0:
@@ -175,4 +195,4 @@ if __name__=='__main__':
         btTarget =  btCodingExons.cat( btNcExons ).saveas().sort().merge()
         btTarget.saveas(o.outBed)
     else:
-        btCodingExons.saveas(o.outBed)
+        btCodingExonsMrg_wgn.saveas(o.outBed)

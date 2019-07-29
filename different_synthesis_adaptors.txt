@@ -1,0 +1,36 @@
+# adding different adaptor arms to MIP precursor oligo designs to allow synthesis of multiple panels at once 
+
+##option 1 (default)
+export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=yoonOlEvenFshort,adaptorRight=yoonOlEvenRrcshort,normalizeLength=150 )\""
+
+### amplify MIPS with
+jklab0069_mipPrep1F	ggtagcaaagtgcagatgtgctcttc
+jklab0070_mipPrep1R	TGAACTCACACTGCTCTGAACTCTTC
+
+#option 2
+export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=yoonOlOddFshort,adaptorRight=yoonOlOddRrcshort,normalizeLength=150 )\""
+
+### amplify MIPS with
+jklab0071_mipPrep2F	CTATGAGCATGTTCTTCAGGCTCTTC
+jklab0072_mipPrep2R	GCAGTTAATTACGCTTGCTGCTCTTC
+
+#option 3
+export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=mipAmp3Fshort,adaptorRight=mipAmp3Rrcshort,normalizeLength=150 )\""
+
+### amplify MIPS with
+jklab0108_mipAmp3F	cacctatcgttccgtccaggctcttc
+jklab0109_mipAmp3R	taagcagccgtgaacatgtgctcttc
+
+#option 4
+export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=mipAmp4Fshort,adaptorRight=mipAmp4Rrcshort,normalizeLength=150 )\""
+
+### amplify MIPS with
+jklab0110_mipAmp4F	aagctactcgacagcagtcgctcttc
+jklab0111_mipAmp4R	attctgaacagcccgacgttctcttc
+
+#option 5
+export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=mipAmp5Fshort,adaptorRight=mipAmp5Rrcshort,normalizeLength=150 )\""
+
+### amplify MIPS with
+jklab0112_mipAmp5F	tgagtgatatggttcccgcgctcttc
+jklab0113_mipAmp5R	agagaatcccacgacgtcatctcttc
