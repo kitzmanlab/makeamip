@@ -772,8 +772,8 @@ class ScoringModelBase:
                            maxLigArmLen=30,
                            disallowIn3pNbases=8,
                            scorePenaltyToMutate=0.25,
-                           adaptorLeft=yoonOlEvenF,
-                           adaptorRight=yoonOlEvenRrc ):
+                           adaptorLeft=new2019mipsPrep1f ,
+                           adaptorRight=new2019mipsPrep1r_rc ):
 
         self.update_chrom( larmRecords[0].chrom )
 
