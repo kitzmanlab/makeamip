@@ -1,5 +1,5 @@
-source $HOME/miniconda3/bin/activate makeamip
-
+# load the 'makeamip' conda environment that you previously set up
+conda activate makeamip
 
 # handy shortcut:
 alias span='python -c "import numpy as np; import sys; x=np.array([ int(l.split(\"\t\")[2])-int(l.split(\"\t\")[1]) for l in sys.stdin]) ; print(x.sum())"'
@@ -55,11 +55,16 @@ split_target_bed.py \
 
 
 # need to have xa2multi.pl in path -- on my system this is included with bwa
-export PATH=${PATH}:/usr/share/bwa/
-# add mrfast to path
-export PATH=${PATH}:/mnt/userdata/annots_and_files/software/mrfast-2.6.1.0/
-# point env var to picard
-export PICARD_DIR=/mnt/userdata/tools
+export PATH=${PATH}:/opt/apps/rhel6/bwa/0.7.12/bin/
+# add mrfast to path  on our system load module 
+#export PATH=${PATH}:/mnt/userdata/annots_and_files/software/mrfast-2.6.1.0/
+module load mrfast/2.6.1.0
+# add jellyfish to path
+export PATH=${PATH}:/nfs/kitzman2/lab_software/flux_rhel6/jellyfish-2.1.4/bin/
+# point env var to picard - on our system load module
+module load picard/2.9.0
+# export PICARD_DIR=/mnt/userdata/tools 
+
 
 
 ##
@@ -101,9 +106,9 @@ export TRAIN_PATH=${REFS}/parameters/trainsets/
 
 # parameters that get passed into the candidate MIP arm and pair generation scripts. 
 
-export GEN_CANDS_DESIGN_OPTS_STAGE1=" --ligArmLengthRange 23,29 --extArmLengthRange 23,30  --gapFillRange 100,120 --padBy 100 --maxHomopolLen 8 --gcRange 5,90 --enforceTopStrandOnly"
+export GEN_CANDS_DESIGN_OPTS_STAGE1=" --ligArmLengthRange 25,32 --extArmLengthRange 25,32  --gapFillRange 100,120 --padBy 100 --maxHomopolLen 8 --gcRange 5,90 --enforceTopStrandOnly"
 
-export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=yoonOlEvenFshort,adaptorRight=yoonOlEvenRrcshort,normalizeLength=150 )\""
+export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_bbsi,adaptorLeft=new2019mipsPrep1f,adaptorRight=new2019mipsPrep1r_rc,tagLen=9,normalizeLength=169,maxLigArmLen=35 )\""
 
 # this runs up until but not including picking.
 pipeline_template.sh > ${BASE_DIR}/out.log 2>${BASE_DIR}/out.err

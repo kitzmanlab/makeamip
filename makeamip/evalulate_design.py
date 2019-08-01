@@ -81,7 +81,7 @@ if __name__ == '__main__':
     plt.step(binedges[1:],cdfAll,lw=2,label='all pairs' )
     # print (lPicked[i],(mIxPickedScores[i]>0.5).mean(),(mIxPickedScores[i]).mean(),(mIxPickedScores[i]).max())
 
-    countsPicked,binedges=np.histogram( scoresPairsPicked.clip(scoreClipRange[0],scoreClipRange[1]), weights=weightsPairsPicked, bins=bins, density=False )
+    countsPicked,binedges=np. gram( scoresPairsPicked.clip(scoreClipRange[0],scoreClipRange[1]), weights=weightsPairsPicked, bins=bins, density=False )
     cdfPicked = np.cumsum(countsPicked/sum(countsPicked).astype('f'))
     plt.step(binedges[1:],cdfPicked,lw=2,label='picked pairs')
 
@@ -143,7 +143,7 @@ if __name__ == '__main__':
     tblPairsPickedAndOthers = tblPairsPicked[ ~pd.isnull(tblPairsPicked['min_other_score']) ]
 
     ax.hist(
-        tblPairsPickedAndOthers['score'] - tblPairsPickedAndOthers['min_other_score'],
+        np.array(tblPairsPickedAndOthers['score'] - tblPairsPickedAndOthers['min_other_score']),
         bins=100,
         normed=True,
         histtype='step',

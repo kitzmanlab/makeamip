@@ -1,36 +1,80 @@
 # adding different adaptor arms to MIP precursor oligo designs to allow synthesis of multiple panels at once 
 
-##option 1 (default)
-export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=yoonOlEvenFshort,adaptorRight=yoonOlEvenRrcshort,normalizeLength=150 )\""
+# FOR NEW-STYLE MIPS (2019), to prep with BbsI and sequence with builtin primers:
 
-### amplify MIPS with
-jklab0069_mipPrep1F	ggtagcaaagtgcagatgtgctcttc
-jklab0070_mipPrep1R	TGAACTCACACTGCTCTGAACTCTTC
+	## recommend this arm candidate parameter:
+	export GEN_CANDS_DESIGN_OPTS_STAGE1=" --ligArmLengthRange 25,32 --extArmLengthRange 25,32  --gapFillRange 100,120 --padBy 100 --maxHomopolLen 8 --gcRange 5,90 --enforceTopStrandOnly"
 
-#option 2
-export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=yoonOlOddFshort,adaptorRight=yoonOlOddRrcshort,normalizeLength=150 )\""
+	## with one of these probe pair params:
 
-### amplify MIPS with
-jklab0071_mipPrep2F	CTATGAGCATGTTCTTCAGGCTCTTC
-jklab0072_mipPrep2R	GCAGTTAATTACGCTTGCTGCTCTTC
+	### set 1 
 
-#option 3
-export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=mipAmp3Fshort,adaptorRight=mipAmp3Rrcshort,normalizeLength=150 )\""
+		export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_bbsi,adaptorLeft=new2019mipsPrep1f,adaptorRight=new2019mipsPrep1r_rc,tagLen=9,normalizeLength=169,maxLigArmLen=35 )\""
 
-### amplify MIPS with
-jklab0108_mipAmp3F	cacctatcgttccgtccaggctcttc
-jklab0109_mipAmp3R	taagcagccgtgaacatgtgctcttc
+		### amplify MIPS with 
+		jklab0255_2019mipsPrep1f	GAGATCGGCGCGTTAGAAGAC
+		jklab0256_2019mipsPrep1r	TGCAGGATCTAGGGCGAAGAC
 
-#option 4
-export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=mipAmp4Fshort,adaptorRight=mipAmp4Rrcshort,normalizeLength=150 )\""
+	### set 2
 
-### amplify MIPS with
-jklab0110_mipAmp4F	aagctactcgacagcagtcgctcttc
-jklab0111_mipAmp4R	attctgaacagcccgacgttctcttc
+		export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_bbsi,adaptorLeft=new2019mipsPrep2f,adaptorRight=new2019mipsPrep2r_rc,tagLen=9,normalizeLength=169,maxLigArmLen=35 )\""
 
-#option 5
-export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=mipAmp5Fshort,adaptorRight=mipAmp5Rrcshort,normalizeLength=150 )\""
+		### amplify MIPS with 
+		jklab0257_2019mipsPrep2f	GATTGTGGTCGCCTGGAAGAC
+		jklab0258_2019mipsPrep2r	ACTACCGCGTACCTCGAAGAC
 
-### amplify MIPS with
-jklab0112_mipAmp5F	tgagtgatatggttcccgcgctcttc
-jklab0113_mipAmp5R	agagaatcccacgacgtcatctcttc
+	### set 3
+
+		export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_bbsi,adaptorLeft=new2019mipsPrep3f,adaptorRight=new2019mipsPrep3r_rc,tagLen=9,normalizeLength=169,maxLigArmLen=35 )\""
+
+		### amplify MIPS with 
+		jklab0259_2019mipsPrep3f	GGGCGTAGTTGTTGGGAAGAC
+		jklab0260_2019mipsPrep3r	CTCGCTGGTGTGTCAGAAGAC
+
+	### set 4
+
+		export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_bbsi,adaptorLeft=new2019mipsPrep3f,adaptorRight=new2019mipsPrep3r_rc,tagLen=9,normalizeLength=169,maxLigArmLen=35 )\""
+
+		### amplify MIPS with 
+		jklab0261_2019mipsPrep4f	CTCGTCAACGACACGGAAGAC
+		jklab0262_2019mipsPrep4r	TTATCTCGTCGCGCAGAAGAC	
+
+
+
+
+# FOR OLD-STYLE MIPS (2016-2018), to prep with EarI and sequence with custom primers:
+
+	##option 1 (default)
+	export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=yoonOlEvenFshort,adaptorRight=yoonOlEvenRrcshort,normalizeLength=150 )\""
+
+	### amplify MIPS with
+	jklab0069_mipPrep1F	ggtagcaaagtgcagatgtgctcttc
+	jklab0070_mipPrep1R	TGAACTCACACTGCTCTGAACTCTTC
+
+	#option 2
+	export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=yoonOlOddFshort,adaptorRight=yoonOlOddRrcshort,normalizeLength=150 )\""
+
+	### amplify MIPS with
+	jklab0071_mipPrep2F	CTATGAGCATGTTCTTCAGGCTCTTC
+	jklab0072_mipPrep2R	GCAGTTAATTACGCTTGCTGCTCTTC
+
+	#option 3
+	export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=mipAmp3Fshort,adaptorRight=mipAmp3Rrcshort,normalizeLength=150 )\""
+
+	### amplify MIPS with
+	jklab0108_mipAmp3F	cacctatcgttccgtccaggctcttc
+	jklab0109_mipAmp3R	taagcagccgtgaacatgtgctcttc
+
+	#option 4
+	export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=mipAmp4Fshort,adaptorRight=mipAmp4Rrcshort,normalizeLength=150 )\""
+
+	### amplify MIPS with
+	jklab0110_mipAmp4F	aagctactcgacagcagtcgctcttc
+	jklab0111_mipAmp4R	attctgaacagcccgacgttctcttc
+
+	#option 5
+	export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_eari,adaptorLeft=mipAmp5Fshort,adaptorRight=mipAmp5Rrcshort,normalizeLength=150 )\""
+
+	### amplify MIPS with
+	jklab0112_mipAmp5F	tgagtgatatggttcccgcgctcttc
+	jklab0113_mipAmp5R	agagaatcccacgacgtcatctcttc

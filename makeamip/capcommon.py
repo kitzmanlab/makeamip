@@ -720,6 +720,29 @@ mipAmp5Rrc = 'gaagagatgacgtcgtgggattctct'
 mipAmp5Rrcshort='gaagagatgacgtcgtgggat'
 
 
+### 2019 MIPS
+
+new2019backbone='AGATCGGAAGAGCACACGTCAGCGTCAGATGTGTATAAGAGACAG'
+
+new2019mipsPrep1f='GAGATCGGCGCGTTAGAAGAC'
+new2019mipsPrep1r='TGCAGGATCTAGGGCGAAGAC'
+new2019mipsPrep1r_rc=revComp(new2019mipsPrep1r) #GTCTTCGCCCTAGATCCTGCA
+
+new2019mipsPrep2f='GATTGTGGTCGCCTGGAAGAC'
+new2019mipsPrep2r='ACTACCGCGTACCTCGAAGAC'
+new2019mipsPrep2r_rc=revComp(new2019mipsPrep2r)
+
+new2019mipsPrep3f='GGGCGTAGTTGTTGGGAAGAC'
+new2019mipsPrep3r='CTCGCTGGTGTGTCAGAAGAC'
+new2019mipsPrep3r_rc=revComp(new2019mipsPrep3r)
+
+new2019mipsPrep4f='CTCGTCAACGACACGGAAGAC'
+new2019mipsPrep4r='TTATCTCGTCGCGCAGAAGAC'
+new2019mipsPrep4r_rc=revComp(new2019mipsPrep4r)
+
+
+
+
 class ScoringModelBase:
 
     def __init__(self, fastaFn, fastaDictFn):
@@ -732,6 +755,127 @@ class ScoringModelBase:
         if chrom != self.chromLast:
             self.chromLast = chrom
             self.chromSeqLast = self.sfGenome.fetch( chrom.encode('ascii') )
+
+
+
+    # larmRecords: list of arms for [top/ext, top/lig, btm/ext, btm/lig]
+    # normalize length - make all designed sequences this long
+    # tag len - randomer tag length
+    # maxLigArmLen 
+    # maxExtArmLen 
+    def makeseq_dsmip_bbsi(self,
+                           larmRecords,
+                           lhitRecords,
+                           lsnpRecords,
+                           normalizeLength=160,
+                           tagLen=10,
+                           maxLigArmLen=30,
+                           disallowIn3pNbases=8,
+                           scorePenaltyToMutate=0.25,
+                           adaptorLeft=yoonOlEvenF,
+                           adaptorRight=yoonOlEvenRrc ):
+
+        self.update_chrom( larmRecords[0].chrom )
+
+        lenExtTop = larmRecords[0].end - larmRecords[0].start + 1 + 6
+        lenLigTop = larmRecords[1].end - larmRecords[1].start + 1 + 2 
+        
+        # assert lenLigTop <= maxLigArmLen
+        if lenLigTop > maxLigArmLen:
+            return (True, -1, '')
+
+        # for BbsI, pad with the in-between two bases equaling the genome at this site
+        # add LIG arm
+        seqLigArm = self.chromSeqLast[ larmRecords[1].start-2:larmRecords[1].start ]
+        seqLigArm += self.chromSeqLast[ larmRecords[1].start:larmRecords[1].end+1 ]
+            
+        # add EXT arm
+        seqExtArm = self.chromSeqLast[ larmRecords[0].start:larmRecords[0].end+1 ]
+        # for EarI, pad with the in-between *six* bases equaling genome @ this site
+        seqExtArm += self.chromSeqLast[ larmRecords[0].end+1:larmRecords[0].end+7 ]
+
+        seqLigArm,seqExtArm=seqLigArm.upper(), seqExtArm.upper()
+
+
+        penalty=0
+        suppress=False
+
+        # for arms w/ EarI sites, mutate them if far enough away
+        # from 3' ends and add a penalty, or indicate that they should be suppressed entirely.
+        if seqLigArm.count('GAAGAC') > 0:
+            if seqLigArm.index('GAAGAC') +1 >= disallowIn3pNbases:
+                seqLigArm = seqLigArm.replace('GAAGAC','GAAGAg')
+                penalty += scorePenaltyToMutate
+            else:
+                suppress = True
+
+        if seqLigArm.endswith('GAAGA'):
+            # prevent GAAGAn (ie the beginning degen base of tag)
+            if len(seqLigArm)-5 >= disallowIn3pNbases:
+                seqLigArm = seqLigArm[:-5]+'GAAGt'
+                penalty += scorePenaltyToMutate
+            else:
+                suppress = True
+
+        # on neg strand:
+        if seqLigArm.count('GTCTTC') > 0:
+            if seqLigArm.index('GTCTTC') +1 >= disallowIn3pNbases:
+                seqLigArm = seqLigArm.replace('GTCTTC','GTCTTg')
+                penalty += scorePenaltyToMutate
+            else:
+                suppress = True
+
+        if seqLigArm.endswith('GAAGA'):
+            # prevent GAAGAN (ie the beginning degen base of tag)
+            if len(seqLigArm)-5 >= disallowIn3pNbases:
+                seqLigArm = seqLigArm[:-5]+'GAAGt'
+                penalty += scorePenaltyToMutate
+            else:
+                suppress = True
+
+
+        if seqExtArm.count('GAAGAC') > 0:
+            if seqExtArm.index('GAAGAC') + 5 >= len(seqExtArm) - disallowIn3pNbases:
+                seqExtArm = seqExtArm.replace('GAAGAC','GAAGAg')
+                penalty += scorePenaltyToMutate
+            else:
+                suppress = True
+
+        # prev base is G
+        if seqExtArm.startswith('AAGAC'):
+            # prevent gAAGAC (ie from last base of linker)
+            seqExtArm='c'+seqExtArm[1:]
+            penalty += scorePenaltyToMutate
+
+        # on neg strand:
+        if seqExtArm.count('GTCTTC') > 0:
+            if seqExtArm.index('GTCTTC') + 5 >= len(seqExtArm) - disallowIn3pNbases:
+                seqExtArm = seqExtArm.replace('GTCTTC','GTCTTg')
+                penalty += scorePenaltyToMutate
+            else:
+                suppress = True
+
+
+        seqMip = adaptorLeft
+        seqMip += seqLigArm
+        seqMip += 'N'*tagLen
+        seqMip += new2019backbone
+        seqMip += seqExtArm
+        seqMip += adaptorRight
+
+        # need to pad the "L" side and clip the "R" side to keep the Ns in the same cycles for 
+        # synthesis.  Can adjust if need be.
+        designedLen = len(seqMip)
+        # [lenOuterF] - [<= maxArmLen]
+
+        nPrepad = maxLigArmLen - lenLigTop
+        nCrop = max( 0, (designedLen + nPrepad) - normalizeLength )
+
+        seqMipPrepad = ''.join(['ACGT'[random.randint(0,3)] for _ in xrange(nPrepad) ]) + seqMip
+        seqMipCrop = seqMipPrepad[ :normalizeLength ]
+
+        # print seqMipCrop
+        return (suppress, penalty, seqMipCrop)
 
     # larmRecords: list of arms for [top/ext, top/lig, btm/ext, btm/lig]
     # normalize length - make all designed sequences this long
@@ -797,10 +941,10 @@ class ScoringModelBase:
             else:
                 suppress = True
 
-        if seqLigArm.endswith('GAAGA'):
+        if seqLigArm.endswith('CTCTT'):
             # prevent GAAGAN (ie the beginning degen base of tag)
             if len(seqLigArm)-5 >= disallowIn3pNbases:
-                seqLigArm = seqLigArm[:-5]+'GAAGc'
+                seqLigArm = seqLigArm[:-5]+'CTCTa'
                 penalty += scorePenaltyToMutate
             else:
                 suppress = True
@@ -1436,6 +1580,9 @@ def data_frame_to_pbt_nameidx( df,
                                col_idx=None,
                                use_index=True,
                                coords='[00]' ):
+
+    import pybedtools as pbt
+
     if col_idx is None and use_index:
         df_tobt = df[ [ col_chrom, col_start, col_end ] ].copy()
         df_tobt['name'] = df.index

@@ -20,6 +20,7 @@ from makeamip.capcommon import *
 def remap( lstores, tablename ):
     lnRemap = {'ichunk':[], 'oldidx':[], 'newidx':[]}
     lnRemap = pd.DataFrame( lnRemap )
+    lnRemap = lnRemap.astype(int)
     
     itargNext=0
     for ifn in xrange( len(lstores) ):
@@ -27,7 +28,7 @@ def remap( lstores, tablename ):
         lnRemapNew = pd.DataFrame( {'newidx':np.arange( itargNext, itargNext+tblcurchunkTarg.shape[0] ) } )
         lnRemapNew['ichunk'] = ifn
         lnRemapNew['oldidx'] = tblcurchunkTarg.index[:]
-        lnRemap = pd.concat( [lnRemap, lnRemapNew] )
+        lnRemap = pd.concat( [lnRemap, lnRemapNew], sort=False )
         itargNext += tblcurchunkTarg.shape[0]
 
     lnRemap = lnRemap.sort_values( by= ['ichunk','oldidx'] ).set_index( ['ichunk','oldidx'] )

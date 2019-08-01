@@ -16,14 +16,11 @@ conda config --add channels bioconda
 
 Set up python environment
 ```
-conda create --name makeamip python=2 future pysam pybedtools cython biopython openpyxl scipy scikit-learn pytables primer3-py bzip2=1.0.6=1 matplotlib
-
-source activate
-source actviate makeamip
-
-pip install pyvcf
+conda create --name makeamip python=2.7 future pysam pybedtools cython biopython openpyxl scipy scikit-learn pytables primer3-py bzip2=1.0.6=1 matplotlib pyvcf
 
 # now, activate this environment
+conda actviate makeamip
+
 ```
 
 ### Setup: references
