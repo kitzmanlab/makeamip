@@ -33,7 +33,7 @@
 
 	### set 4
 
-		export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_bbsi,adaptorLeft=new2019mipsPrep3f,adaptorRight=new2019mipsPrep3r_rc,tagLen=9,normalizeLength=169,maxLigArmLen=35 )\""
+		export GEN_PAIRS_DESIGN_OPTS_STAGE1=" --gapFillRange 100,120 --tmDiffRange ' -20,20' --enforceGapFillOnTopOnly --generateMipSeqFxn \"lambda picker:partial(picker.makeseq_dsmip_bbsi,adaptorLeft=new2019mipsPrep4f,adaptorRight=new2019mipsPrep4r_rc,tagLen=9,normalizeLength=169,maxLigArmLen=35 )\""
 
 		### amplify MIPS with 
 		jklab0261_2019mipsPrep4f	CTCGTCAACGACACGGAAGAC
